@@ -1,6 +1,6 @@
 # 🍋 Lemonade - E-commerce Backend API
 
-A robust NestJS backend application for managing an e-commerce platform with products, variants, and orders. Built with TypeScript, PostgreSQL, and Docker for easy development and deployment.
+A NestJS backend application for managing an e-commerce platform with products, variants, and orders. Built with TypeScript, PostgreSQL, and Docker.
 
 ## 🚀 Quick Start
 
