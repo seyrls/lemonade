@@ -1,0 +1,26 @@
+meta {
+  name: Upsert Variant
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/admin/v1/variants/:variant_id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  variant_id: {{$randomUUID}}
+}
+
+body:json {
+  {
+    "name": "{{$randomProduct}}",
+    "is_active": {{$randomBoolean}}
+  }
+}
+
+settings {
+  encodeUrl: true
+}

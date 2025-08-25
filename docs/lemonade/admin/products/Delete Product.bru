@@ -1,0 +1,28 @@
+meta {
+  name: Delete Product
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:3000/admin/v1/products/:product_id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  product_id: ac20b9ad-2e24-4036-b2b9-907b7cfb2014
+}
+
+body:json {
+  {
+    "name": "{{$randomProductName}}",
+    "description": "{{$randomProductAdjective}}",
+    "image_url": "{{$randomFoodImage}}",
+    "is_active": {{$randomBoolean}}
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,13 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "lemonade_user",
+  "password": "lemonade_password",
+  "database": "lemonade",
+  "entities": ["dist/**/*.entity.js"],
+  "migrations": ["dist/migrations/*.js"],
+  "migrationsTableName": "migrations",
+  "synchronize": false,
+  "logging": true
+}

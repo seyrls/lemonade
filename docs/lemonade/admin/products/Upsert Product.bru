@@ -1,0 +1,28 @@
+meta {
+  name: Upsert Product
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/admin/v1/products/:product_id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  product_id: {{$randomUUID}}
+}
+
+body:json {
+  {
+    "name": "{{$randomProductName}}",
+    "description": "{{$randomProductAdjective}}",
+    "image_url": "{{$randomFoodImage}}",
+    "is_active": {{$randomBoolean}}
+  }
+}
+
+settings {
+  encodeUrl: true
+}

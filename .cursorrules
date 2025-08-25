@@ -1,0 +1,145 @@
+# Cursor Rules for TypeScript and NestJS Development
+
+## TypeScript General Guidelines
+
+### Basic Principles
+- Always use English for all code and documentation
+- Declare explicit types for all variables, function parameters, and return values
+- Never use `any` type - create proper types instead
+- Use JSDoc to document all public classes and methods
+- No blank lines within functions
+- One export per file maximum
+
+### Nomenclature
+- Use PascalCase for classes: `UserService`, `ProductController`
+- Use camelCase for variables, functions, and methods: `getUserById`, `isLoading`
+- Use kebab-case for files and directories: `user-service.ts`, `product-controller.ts`
+- Use UPPERCASE for environment variables: `DATABASE_URL`, `API_KEY`
+- Define constants instead of magic numbers
+- Start functions with verbs: `createUser`, `validateInput`, `sendEmail`
+- Use boolean naming with verbs: `isLoading`, `hasError`, `canDelete`, `shouldRetry`
+- Use complete words, avoid abbreviations (except standard ones like API, URL, i, j for loops, err, ctx, req, res, next)
+
+### Functions
+- Keep functions short with single purpose (less than 20 instructions)
+- Use early returns and guard clauses to avoid nesting
+- Extract complex logic to utility functions
+- Use higher-order functions (map, filter, reduce) instead of loops when possible
+- Use arrow functions for simple functions (less than 3 instructions)
+- Use named functions for complex functions
+- Use default parameters instead of null/undefined checks
+- Follow RO-RO pattern: use objects for multiple parameters and return values
+- Maintain single level of abstraction per function
+
+### Data
+- Encapsulate data in composite types instead of primitive types
+- Use classes with internal validation instead of function-level validation
+- Prefer immutability: use `readonly` and `as const`
+- Create proper interfaces and types for data structures
+
+### Classes
+- Follow SOLID principles
+- Prefer composition over inheritance
+- Declare interfaces to define contracts
+- Keep classes small: less than 200 instructions, less than 10 public methods, less than 10 properties
+
+### Exceptions
+- Use exceptions only for unexpected errors
+- Catch exceptions only to fix expected problems, add context, or use global handlers
+
+### Testing
+- Follow Arrange-Act-Assert convention
+- Use clear test variable naming: `inputX`, `mockX`, `actualX`, `expectedX`
+- Write unit tests for all public functions
+- Use test doubles for dependencies (except inexpensive third-party ones)
+- Write acceptance tests following Given-When-Then convention
+
+## NestJS Specific Guidelines
+
+### Architecture
+- Use modular architecture with clear separation of concerns
+- One module per main domain/route
+- One controller per route (with secondary controllers for sub-routes)
+- Organize models folder with proper data types
+- Use DTOs with class-validator for inputs
+- Declare simple types for outputs
+- Create services module for business logic and persistence
+- Use entities with TypeORM for data persistence
+- One service per entity
+
+### Module Structure
+- Core module for global artifacts (filters, middlewares, guards, interceptors)
+- Shared module for services shared between modules
+- Feature modules for specific domains
+- Clear separation between admin and customer APIs
+
+### File Organization
+```
+src/
+├── core/           # Global filters, guards, interceptors
+├── admin/          # Admin-specific modules
+├── customer/       # Customer-facing modules
+└── {feature}/      # Feature modules
+    ├── {feature}.controller.ts
+    ├── {feature}.service.ts
+    ├── {feature}.module.ts
+    ├── dto/
+    ├── entities/
+    └── interfaces/
+```
+
+### Testing Requirements
+- Use Jest framework for all testing
+- Write tests for each controller and service
+- Write end-to-end tests for each API module
+- Include `admin/test` method in each controller as smoke test
+
+## Code Quality Rules
+
+### Type Safety
+- Always use strict TypeScript configuration
+- Prefer interfaces over types for object shapes
+- Use union types and discriminated unions appropriately
+- Avoid type assertions unless absolutely necessary
+
+### Error Handling
+- Use proper error types and custom exceptions
+- Implement global exception filters
+- Return consistent error responses
+- Log errors appropriately
+
+### Performance
+- Use async/await properly
+- Implement proper database querying patterns
+- Use caching where appropriate
+- Avoid N+1 query problems
+
+### Security
+- Validate all inputs with DTOs
+- Implement proper authentication and authorization
+- Use environment variables for sensitive data
+- Sanitize user inputs
+
+## File Naming Conventions
+- Controllers: `{feature}.controller.ts`
+- Services: `{feature}.service.ts`
+- Modules: `{feature}.module.ts`
+- DTOs: `{action}-{feature}.dto.ts`
+- Entities: `{feature}.entity.ts`
+- Interfaces: `{feature}.interface.ts`
+- Guards: `{feature}.guard.ts`
+- Interceptors: `{feature}.interceptor.ts`
+- Filters: `{feature}.filter.ts`
+
+## Import/Export Rules
+- Use named imports/exports by default
+- Group imports: external libraries, internal modules, relative imports
+- Use barrel exports (index.ts) for clean imports
+- Avoid circular dependencies
+
+## Documentation Standards
+- Use JSDoc for all public APIs
+- Include parameter types and return types
+- Document exceptions that may be thrown
+- Provide usage examples for complex methods
+- Keep README files updated with setup and usage instructions

@@ -1,0 +1,34 @@
+meta {
+  name: Create Product Variant
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/admin/v1/products/:product_id/variants
+  body: json
+  auth: inherit
+}
+
+params:path {
+  product_id: e82e7ea9-a1a5-4172-91d1-48cdfe22796b
+}
+
+body:json {
+  [
+    {
+      "variant_id": "a683bf5d-d041-4e7b-b341-7b9901110998",
+      "price": "{{$randomPrice}}",
+      "is_active": {{$randomBoolean}}
+    },
+    {
+      "variant_id": "24f76f0c-e74f-4ac2-ab52-0356c3e2fe29",
+      "price": "{{$randomPrice}}",
+      "is_active": {{$randomBoolean}}
+    }
+  ]
+}
+
+settings {
+  encodeUrl: true
+}

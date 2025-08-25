@@ -1,0 +1,27 @@
+meta {
+  name: Place Order
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/customer/v1/orders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "customer_id": "9655e63d-64a7-4475-8832-2a90447ca744",
+    "items": [
+      {
+        "product_variant_id": "70a567a2-13a9-4371-b0d7-187667a45514",
+        "quantity": 2
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

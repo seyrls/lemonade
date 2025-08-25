@@ -1,0 +1,26 @@
+meta {
+  name: Update Variant
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:3000/admin/v1/variants/:variant_id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  variant_id: 19e0cf2f-10c9-4b35-a183-17dd8d57f7a0
+}
+
+body:json {
+  {
+    "name": "{{$randomProduct}}",
+    "is_active": {{$randomBoolean}}
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,50 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: lemonade-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lemonade
+      POSTGRES_USER: lemonade_user
+      POSTGRES_PASSWORD: lemonade_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lemonade-network
+
+  # NestJS Application (Development)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lemonade-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://lemonade_user:lemonade_password@postgres:5432/lemonade
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: lemonade
+      DATABASE_USER: lemonade_user
+      DATABASE_PASSWORD: lemonade_password
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - lemonade-network
+    command: npm run start:dev
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  lemonade-network:
+    driver: bridge

@@ -1,0 +1,22 @@
+meta {
+  name: Create Variant
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/admin/v1/variants
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "{{$randomProduct}}",
+    "is_active": {{$randomBoolean}}
+  }
+}
+
+settings {
+  encodeUrl: true
+}

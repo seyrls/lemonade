@@ -1,0 +1,26 @@
+meta {
+  name: Delete Variant
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:3000/admin/v1/variants/:variant_id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  variant_id: 75d25cdc-149e-41ce-a5ae-c2d607b5c343
+}
+
+body:json {
+  {
+    "name": "{{$randomProduct}}",
+    "is_active": {{$randomBoolean}}
+  }
+}
+
+settings {
+  encodeUrl: true
+}
