@@ -23,6 +23,9 @@ cp env.example .env
 # Start all services with Docker
 docker-compose up -d
 
+# Run database migrations and seeders
+npm run migration:run
+
 # The API will be available at http://localhost:3000
 ```
 
@@ -38,7 +41,7 @@ cp env.example .env
 # Start PostgreSQL with Docker
 docker-compose up -d postgres
 
-# Run migrations
+# Run migrations and seeders
 npm run migration:run
 
 # Start the application
@@ -48,6 +51,49 @@ npm run start:dev
 ### Bruno Collection
 
 In the docs folder, there's a collect for all the APIs using [Bruno](https://www.usebruno.com/)
+
+## 🗄️ Database Setup
+
+### Initial Setup
+
+The application automatically sets up the database schema and seeds initial data when you run migrations:
+
+```bash
+# After starting Docker services, run migrations
+npm run migration:run
+```
+
+This command will:
+1. Create all necessary database tables with proper relationships
+2. Seed the database with sample data including:
+   - Product variants (Small, Medium, Large)
+   - Sample products (Classic Lemonade, Strawberry Fizz, Iced Tea)
+   - Product-variant combinations with pricing
+   - Sample users for testing
+
+### Migration Commands
+
+```bash
+# Run all pending migrations (including seeders)
+npm run migration:run
+
+# Revert the last migration
+npm run migration:revert
+```
+
+### Database Reset
+
+To completely reset the database and start fresh:
+
+```bash
+# Stop services and remove data volume
+docker-compose down
+docker volume rm lemonade_postgres_data
+
+# Restart and re-run migrations
+docker-compose up -d
+npm run migration:run
+```
 
 ## 🏗️ Architecture & Design Choices
 
@@ -346,7 +392,31 @@ GET /customer/orders/{confirmationNumber}
 
 ---
 
-## 🗄️ Database Schema
+## 🗄️ Database Setup & Schema
+
+### Database Initialization
+
+The application uses TypeORM migrations to set up the database schema and seed initial data. The setup process includes:
+
+1. **CreateInitialTables**: Creates all necessary database tables with proper relationships
+2. **SeedInitialData**: Populates the database with sample data for development
+
+#### Available Migrations
+
+- **1755973647688-CreateInitialTables**: Creates the core database structure
+  - Products table
+  - Variants table  
+  - Product variants table
+  - Users table
+  - Orders table
+  - Order items table
+  - All necessary foreign key constraints
+
+- **1755974260955-SeedInitialData**: Seeds the database with initial data
+  - Sample variants (Small, Medium, Large)
+  - Sample products (Classic Lemonade, Strawberry Fizz, Iced Tea)
+  - Product-variant combinations with pricing
+  - Sample users for testing
 
 ### Core Entities
 
@@ -444,31 +514,6 @@ npm run test:cov
 
 ---
 
-## 🔧 Development Commands
-
-```bash
-# Development
-npm run start:dev
-
-# Production build
-npm run build
-npm run start:prod
-
-# Database migrations
-npm run migration:generate -- -n MigrationName
-npm run migration:run
-npm run migration:revert
-
-# Linting
-npm run lint
-npm run lint:fix
-
-# Format code
-npm run format
-```
-
----
-
 ## 🌍 Environment Variables
 
 ```bash
@@ -482,27 +527,6 @@ DATABASE_PASSWORD=lemonade_password
 # Application
 PORT=3000
 NODE_ENV=development
-```
-
----
-
-## 🐳 Docker Commands
-
-```bash
-# Start services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-
-# Rebuild and restart
-docker-compose up -d --build
-
-# Database operations
-docker-compose exec postgres psql -U lemonade_user -d lemonade
 ```
 
 ---
@@ -521,7 +545,9 @@ src/
 │   ├── interceptors/    # Response transformation
 │   └── dto/            # Common DTOs
 ├── entities/            # Database models
-└── migrations/          # Database migrations
+└── migrations/          # Database migrations and seeders
+    ├── 1755973647688-CreateInitialTables.ts
+    └── 1755974260955-SeedInitialData.ts
 ```
 
 ---
